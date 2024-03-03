@@ -1,0 +1,2 @@
+// This file is only here so Visual Studio Code not show compiler errors in the /api folder.
+{ "extends":"../config/api-tsconfig.common.json" }

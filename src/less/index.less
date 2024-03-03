@@ -1,0 +1,49 @@
+// The links we should show in the Navbar depend on the size of the page, relative
+// to the size of the leftmost text/icon.
+// We change the text of the navbar items at specific cutoffs to ensure the links
+// are visible.
+@calculator-plus-documentation-and-research: 575px;
+@calculator-plus-documentation: 411px;
+@calculator-plus-docs: 336px;
+@documentation: 325px;
+@docs: 250px;
+
+
+@media screen and (max-width: @calculator-plus-documentation-and-research) {
+	.nav-item .research {
+		display: none;
+	}
+}
+@media screen and (max-width: @calculator-plus-documentation) {
+	.nav-item .documentation {
+		display: none;
+	}
+}
+@media screen and (min-width: (@calculator-plus-documentation+1)) {
+	.nav-item .docs {
+		display: none;
+	}
+}
+@media screen and (max-width: @calculator-plus-docs) {
+	.nav-item.calc {
+		display: none;
+	}
+	.nav-item .docs {
+		display: none;
+	}
+	.nav-item .documentation {
+		display: block;
+	}
+}
+@media screen and (max-width: @documentation) {
+	.nav-item .docs {
+		display: block;
+	}
+	.nav-item .documentation {
+		display: none;
+	}
+}
+
+header.navbar, main {
+	min-width: @docs;
+}

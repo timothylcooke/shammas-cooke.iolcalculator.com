@@ -1,0 +1,2 @@
+// This file is only here so Visual Studio Code not show compiler errors in the /tsx folder.
+{ "extends":"../config/browser-tsconfig.json" }

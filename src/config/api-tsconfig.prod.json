@@ -1,0 +1,6 @@
+{
+	"extends":"./api-tsconfig.common.json",
+	"compilerOptions": {
+		"outDir": "../dist/prod"
+	}
+}

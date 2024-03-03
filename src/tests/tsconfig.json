@@ -1,0 +1,14 @@
+// This file is only here so Visual Studio Code not show compiler errors in the /tests folder.
+{
+	"compilerOptions": {
+		"module": "es2022",
+		"target": "es2022",
+		"lib": ["es2022"],
+		"strict": true,
+		"moduleResolution": "node",
+		"allowSyntheticDefaultImports": true,
+	},
+	"include": [
+		"."
+	]
+}

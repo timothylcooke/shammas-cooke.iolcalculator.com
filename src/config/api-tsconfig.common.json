@@ -1,0 +1,17 @@
+{
+	"compilerOptions": {
+		"module": "es2022",
+		"target": "es2022",
+		"lib": ["es2022"],
+		"strict": true,
+		"moduleResolution": "node",
+		"types": ["@cloudflare/workers-types"],
+		"rootDir": "../api"
+	},
+	"include": [
+		"../api"
+	],
+	"exclude": [
+		"../tsx"
+	]
+}
