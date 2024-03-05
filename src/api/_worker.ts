@@ -1,12 +1,16 @@
 import Env from './Helpers/Env';
 import Route from './Helpers/Route';
 import statusCodeResponse from './Helpers/statusCodeResponse';
+import Settings from './Settings';
 
 const resources: Array<Route> = [
-	new Route(/^\/+$/i, '/'),
-	new Route(/^\/+index.js$/i, '/index.js'),
-	new Route(/^\/+Documentation\/*$/i, '/Documentation', '/'),
-];
+	'/index.js',
+	'/',
+	'/Documentation',
+	Settings.apiUrl,
+	`${Settings.apiUrl}/preop`,
+	`${Settings.apiUrl}/postop`
+].map(x => new Route(x));
 
 export default {
 	async fetch(request: Request, env: Env): Promise<Response> {

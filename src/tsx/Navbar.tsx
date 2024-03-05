@@ -1,4 +1,4 @@
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 
 type NavbarProps = {
 	eula: boolean
@@ -15,7 +15,7 @@ export default function Navbar(props: NavbarProps) {
 							<NavLink className="nav-link" to="/" state={{ eula: props.eula }} >Calculator</NavLink>
 						</li>
 						<li className="nav-item">
-							<NavLink className="nav-link" to="/Documentation" state={{ eula: props.eula }}><span className="docs">Docs</span><span className="documentation">Documentation</span><span className="research"> & Research</span></NavLink>
+							<NavLink className={`nav-link${/^\/(PrintPreview)?$/i.test(useLocation().pathname) ? '' : ' active'}`} to="/Documentation" state={{ eula: props.eula }}><span className="docs">Docs</span><span className="documentation">Documentation</span><span className="research"> & Research</span></NavLink>
 						</li>
 					</ul>
 				</div>
