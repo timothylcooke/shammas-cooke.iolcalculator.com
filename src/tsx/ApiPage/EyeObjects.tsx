@@ -1,4 +1,4 @@
-import Settings, { PreopVariable } from '../../api/Settings';
+import Settings, { PreopVariableName } from '../../api/Settings';
 import HtmlSettings from '../HtmlSettings';
 import { PageProps } from './ApiPageProps';
 
@@ -16,9 +16,9 @@ export default function EyeObjects(props: PageProps) {
 		</tr>;
 
 	// For each key in Settings.variables, add a row.
-	const variables = Object.keys(Settings.variables).map(x => ({ name: x as PreopVariable, var: Settings.variables[x as PreopVariable]! })).filter(x => x.var).map((x, i) =>
+	const variables = Object.keys(Settings.variables).map(x => ({ name: x as PreopVariableName, var: Settings.variables[x as PreopVariableName]! })).filter(x => x.var).map((x, i) =>
 		<tr key={i}>
-			<td>{x.var.fullName === x.name ? x.name : <abbr title={x.var.fullName}>{x.name}</abbr>}</td>
+			<td><code>{x.var.fullName === x.name ? x.name : <abbr title={x.var.fullName}>{x.name}</abbr>}</code></td>
 			<td>{x.var.usage}{x.var.usageAsterisk ? <abbr title={x.var.usageAsterisk}>*</abbr> : undefined}</td>
 			<td>{HtmlSettings.variableDescriptions[x.name](props.page === 'preop')}</td>
 		</tr>

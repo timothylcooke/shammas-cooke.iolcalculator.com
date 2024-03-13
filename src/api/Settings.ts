@@ -6,11 +6,24 @@ type Variable = {
 	fullName: string
 }
 
-export type PreopVariable = 'AL' | 'K1' | 'K2' | 'ACD' | 'CCT' | 'LT' | 'WTW' | 'CD';
+export type LensConstant = {
+	min: number,
+	max: number,
+	roundedToSigFigs?: number
+};
+
+// You can delete variable names that aren't used, but you'll also have to delete them in HtmlSettings' VariableDescriptions.
+export const PreopVariableNames = ['AL', 'K1', 'K2', 'ACD', 'CCT', 'LT', 'WTW', 'CD'] as const;
+export type PreopVariableName = typeof PreopVariableNames[number];
+
+// TODO: Specify your lens constant(s). All constants are considered required.
+// Each constant must be defined in Settings.iolConstants with a min and max value.
+export const IolConstantNames = ['AConstant'] as const;
+export type IolConstantName = typeof IolConstantNames[number];
 
 const Settings = {
 	formulaName: 'T2',
-	apiUrl: '/api/v1/t2',
+	apiUrl: '/api/v1/t2', // This should not end with a trailing slash.
 
 	// If you change which IOL constants are used, you must update the tsx/ApiPage/LensConstants.tsx file.
 	iolConstants: {
@@ -25,12 +38,17 @@ const Settings = {
 		// - min: The minimum value allowed
 		// - max: The maximum value allowed
 		// - roundedToSigFigs: When we optimize the lens constant, how many significant figures we should round the lens constant to.
-		aConstant: {
-			variableName: 'AConstant',
+		//                     You can safely omit roundedToSigFigs if we don't change that lens constant when optimizing IOL constant(s).
+		AConstant: {
 			min: 101,
 			max: 129,
 			roundedToSigFigs: 5
 		},
+	} as {
+		[key in IolConstantName]: LensConstant
+	} & {
+		constantToOptimizeDisplayName: string,
+		constantToOptimizeVariableName: string
 	},
 
 	optimizeEyes: {
@@ -45,6 +63,11 @@ const Settings = {
 
 		// Once the MPE is less than 10^-5, we consider the lens constant optimized.
 		mpeSigFigs: 5,
+	},
+
+	kIndex: {
+		min: 1,
+		max: 2
 	},
 
 	iolPower: {
@@ -64,7 +87,7 @@ const Settings = {
 
 	postopEyes: {
 		min: 1,
-		max: 1000
+		max: 10000
 	},
 
 	predictionsPerIol: {
@@ -101,8 +124,8 @@ const Settings = {
 
 		/*
 		TODO:
-			Additional variables are not used by the T2 variable.
-			Uncomment any variables you need in your formula.
+			The T2 formula does not use any additional variables.
+			Uncomment any extra variables you need in your formula.
 		*/
 		// ACD: {
 		// 	min: 1.1,
@@ -134,15 +157,7 @@ const Settings = {
 		// 	usageAsterisk: 'WTW is required to calculate lens powers greater than +40 Diopters',
 		// 	fullName: 'Horizontal Corneal Diamter'
 		// },
-
-		// CD: {
-		// 	min: 9.81,
-		// 	max: 13.5,
-		// 	usage: 'Optional',
-		// 	usageAsterisk: 'CD is required to calculate lens powers greater than +40 Diopters',
-		// 	fullName: 'Horizontal Corneal Diameter'
-		// },
-	} as { [key in PreopVariable]: Variable | undefined }
+	} as { [key in PreopVariableName]: Variable | undefined }
 };
 
 export default Settings;

@@ -1,4 +1,4 @@
-import Settings, { PreopVariable } from '../api/Settings';
+import Settings, { PreopVariableName } from '../api/Settings';
 
 const HtmlSettings = {
 	formulaName: <>{Settings.formulaName}</>,
@@ -12,7 +12,7 @@ const HtmlSettings = {
 		LT: (isPreop: boolean) => <p>The {isPreop ? '' : 'preoperative '}lens thickness, measured by optical biometry. This value must be between {Settings.variables.LT?.min} and {Settings.variables.LT?.max} millimeters.</p>,
 		WTW: (isPreop: boolean) => <p>The {isPreop ? '' : 'preoperative '}horizontal white-to-white, also known as &quot;Horizontal Corneal Diameter.&quot; This value must be between {Settings.variables.WTW?.min} and {Settings.variables.WTW?.max} millimeters.</p>,
 		CD: (isPreop: boolean) => <p>The {isPreop ? '' : 'preoperative '}horizontal corneal diameter, also known as &quot;Horizontal White-to-White.&quot; This value must be between {Settings.variables.CD?.min} and {Settings.variables.CD?.max} millimeters.</p>,
-	} as { [key in PreopVariable]: (isPreop: boolean) => JSX.Element }
+	} as { [key in PreopVariableName]: (isPreop: boolean) => JSX.Element }
 };
 
 export default HtmlSettings;

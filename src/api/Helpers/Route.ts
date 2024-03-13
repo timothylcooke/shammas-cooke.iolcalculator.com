@@ -1,5 +1,8 @@
+import ApiRoute from './ApiRoute';
+import Settings from '../Settings';
 import Env from './Env';
 import statusCodeResponse from './statusCodeResponse';
+import { PostopApiInputs, PreopApiInputs } from '../IolFormula/ApiVariables';
 
 export default class Route {
 	private pathname: string;
@@ -34,7 +37,32 @@ export default class Route {
 	};
 
 	public respond = async (pathname: string, request: Request, env: Env): Promise<Response> => {
-		if ('GET'.localeCompare(request.method, undefined, { sensitivity: 'accent' })) {
+		if (!'POST'.localeCompare(request.method, undefined, { sensitivity: 'accent' }) && this.pathname.indexOf(`${Settings.apiUrl}/`) >= 0) {
+			// This is a valid POST request to a valid endpoint.
+
+			// We need a 'Content-Type' header of 'application/json'
+			const contentType: string | null = request.headers.get('content-type');
+			if (typeof contentType !== 'string' || contentType.indexOf('application/json') < 0) {
+				return await statusCodeResponse(request, env, 415, 'Unsupported Media Type', 'Content-Type must be "application/json"');
+			}
+
+			// Let's make sure we can parse JSON
+			let requestBody: unknown;
+			try {
+				requestBody = await request.json();
+			} catch {
+				return await statusCodeResponse(request, env, 400, 'Bad Request', 'Bad Request\nRequest is not valid JSON');
+			}
+
+			// And make sure it parses to a simple object.
+			if (typeof requestBody !== 'object' || Array.isArray(requestBody)) {
+				return await statusCodeResponse(request, env, 400, 'Bad Request', 'Bad Request\nRequest is not an object');
+			}
+
+			return await this.pathname.endsWith('preop') ?
+				ApiRoute.Preop(requestBody as PreopApiInputs, request, env) :
+				ApiRoute.Postop(requestBody as PostopApiInputs, request, env);
+		} else if ('GET'.localeCompare(request.method, undefined, { sensitivity: 'accent' })) {
 			// The request Method is not "GET". Return 405.
 			return await statusCodeResponse(request, env, 405, 'Method Not Allowed');
 		} else if (pathname === this.pathname) {
