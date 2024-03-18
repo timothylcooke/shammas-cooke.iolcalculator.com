@@ -10,7 +10,7 @@ export default function Example(props: PageProps) {
 
 	const preop = {
 		request: '{"KIndex":1.3375,"PredictionsPerIol":7,"IOLs":[{"AConstant":119,"Powers":[{"From":6,"To":30,"By":0.5}]}],"Eyes":[{"TgtRx":-1,"K1":40,"K2":42,"AL":24}]}',
-		response: '"TODO: NOT YET IMPLEMENTED"'
+		response: '[{"IOLs":[{"Predictions":[{"IOL":22.5,"Rx":0.0899},{"IOL":23,"Rx":-0.2634},{"IOL":23.5,"Rx":-0.6208},{"IOL":24,"Rx":-0.9825,"IsBestOption":true},{"IOL":24.5,"Rx":-1.3486},{"IOL":25,"Rx":-1.7191},{"IOL":25.5,"Rx":-2.0942}]}]}]'
 	};
 
 	const { request, response } = (props.page === 'postop' ? postop : preop);

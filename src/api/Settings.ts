@@ -25,13 +25,20 @@ const Settings = {
 	formulaName: 'T2',
 	apiUrl: '/api/v1/t2', // This should not end with a trailing slash.
 
+	// We convert Ks specified by the user to Ks with this keratometric refractive index.
+	// For the T2 formula, Ks are considered 333/measured anterior corneal radius
+	convertKIndex: 1.3375,
+
+	// Any user-facing predicted refraction should be rounded to how many significant figures?
+	roundAnswerSigFigs: 4,
+
 	// If you change which IOL constants are used, you must update the tsx/ApiPage/LensConstants.tsx file.
 	iolConstants: {
 		// The display name of the IOL constant whose value we change in order to optimize the constant(s)
 		constantToOptimizeDisplayName: 'A-Constant',
 
 		// The variable name of the IOL constant whose value we change in order to optimize the constant(s)
-		constantToOptimizeVariableName: 'AConstant',
+		constantToOptimizeVariableName: 'AConstant' as IolConstantName,
 
 		// Each lens constant must specify each of the following:
 		// - variableName: The name of the lens constant as specified in the API
