@@ -1,4 +1,4 @@
-import Settings, { IolConstantName, IolConstantNames, PreopVariableName, PreopVariableNames } from '../Settings';
+import Settings, { IolConstantName, IolConstantNames, IolConstantValues, PreopVariableName, PreopVariableNames } from '../Settings';
 import arrayOfAll from '../Helpers/arrayOfAll';
 import statusCodeResponse from '../Helpers/statusCodeResponse';
 import Env from '../Helpers/Env';
@@ -24,9 +24,12 @@ export type PreopEyeObject = EyeObject & {
 	IOLs?: Array<IolObject>
 };
 
+export type PostopEyeObject = EyeObject & {
+	IolPower: number,
+};
+
 export type BaseApiInputs = {
 	KIndex: number,
-	Eyes: Array<EyeObject>
 };
 
 export type PreopApiInputs = BaseApiInputs & {
@@ -38,7 +41,13 @@ export type PreopApiInputs = BaseApiInputs & {
 export type PostopApiInputs = BaseApiInputs & {
 	[key in IolConstantName]: number
 } & {
-	Optimize: boolean
+	Optimize: boolean,
+	Eyes: Array<PostopEyeObject>
+};
+
+export type PostopFormula = {
+	gatinelFkp: number,
+	calculate: (constants: IolConstantValues) => string | number
 };
 
 export const PreopApiInputNames = arrayOfAll<keyof PreopApiInputs>()('KIndex', 'Eyes', 'PredictionsPerIol', 'IOLs'); // This won't compile if we miss every single property of PreopApiInputs.

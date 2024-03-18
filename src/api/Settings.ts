@@ -21,6 +21,10 @@ export type PreopVariableName = typeof PreopVariableNames[number];
 export const IolConstantNames = ['AConstant'] as const;
 export type IolConstantName = typeof IolConstantNames[number];
 
+export type IolConstantValues = {
+	[key in IolConstantName]: number
+};
+
 const Settings = {
 	formulaName: 'T2',
 	apiUrl: '/api/v1/t2', // This should not end with a trailing slash.
@@ -38,7 +42,7 @@ const Settings = {
 		constantToOptimizeDisplayName: 'A-Constant',
 
 		// The variable name of the IOL constant whose value we change in order to optimize the constant(s)
-		constantToOptimizeVariableName: 'AConstant' as IolConstantName,
+		constantToOptimizeVariableName: 'AConstant',
 
 		// Each lens constant must specify each of the following:
 		// - variableName: The name of the lens constant as specified in the API
@@ -50,12 +54,12 @@ const Settings = {
 			min: 101,
 			max: 129,
 			roundedToSigFigs: 5
-		},
+		}
 	} as {
 		[key in IolConstantName]: LensConstant
 	} & {
 		constantToOptimizeDisplayName: string,
-		constantToOptimizeVariableName: string
+		constantToOptimizeVariableName: IolConstantName
 	},
 
 	optimizeEyes: {

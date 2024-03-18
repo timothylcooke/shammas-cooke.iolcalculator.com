@@ -1,6 +1,8 @@
-import { validateInputs, PostopApiInputs, PreopApiInputs, PreopEyeObject } from '../IolFormula/ApiVariables';
+import { validateInputs, PostopApiInputs, PreopApiInputs, PreopEyeObject, PreopApiInputNames, PostopFormula, PostopApiOutput } from '../IolFormula/ApiVariables';
 import T2Formula from '../IolFormula/T2Formula';
+import Settings, { IolConstantName, IolConstantNames, IolConstantValues } from '../Settings';
 import Env from './Env';
+import statusCodeResponse from './statusCodeResponse';
 
 
 export default class ApiRoute {
@@ -13,7 +15,7 @@ export default class ApiRoute {
 
 		// At this point, we know we have acceptable values for PredictionsPerIol, KIndex, and we know we have a valid number of Eyes and IOLs.
 		// That means we've got enough for a 200 response. If there are any problems with individual eyes or IOLs, we'll return errors on an individual basis.
-		return new Response(JSON.stringify((inputs.Eyes as Array<PreopEyeObject>).map(eye => T2Formula.calculatePreOp(inputs.KIndex, inputs.PredictionsPerIol, inputs.IOLs, eye))), { headers: { 'content-type': 'application/json' } });
+		return new Response(JSON.stringify((inputs.Eyes).map(eye => T2Formula.calculatePreOp(inputs.KIndex, inputs.PredictionsPerIol, inputs.IOLs, eye))), { headers: { 'content-type': 'application/json' } });
 	}
 
 	static Postop = async function(inputs: PostopApiInputs, request: Request, env: Env): Promise<Response> {
@@ -23,6 +25,12 @@ export default class ApiRoute {
 			return requestError;
 		}
 
-		throw 'postop passed validation; formula not implemented!';
+		const answer = T2Formula.calculatePostopEyes(inputs);
+
+		if (typeof answer === 'string') {
+			return await statusCodeResponse(request, env, 400, answer);
+		}
+
+		return new Response(JSON.stringify(T2Formula.calculatePostopEyes(inputs)), { headers: { 'content-type': 'application/json' } });
 	}
 };

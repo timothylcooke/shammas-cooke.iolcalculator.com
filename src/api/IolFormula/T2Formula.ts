@@ -1,6 +1,6 @@
 import BaseFormula from './BaseFormula';
-import { EyeObject, IolObject, IolPowers, IolPropertyNames, PreopApiOutput, PreopEyeObject, PreopEyeVariableNames } from './ApiVariables';
-import Settings, { IolConstantName, IolConstantNames, PreopVariableNames } from '../Settings';
+import { EyeObject, IolObject, IolPowers, IolPropertyNames, PostopApiInputs, PostopApiOutput, PostopEyeObject, PostopFormula, PreopApiOutput, PreopEyeObject, PreopEyeVariableNames } from './ApiVariables';
+import Settings, { IolConstantNames, IolConstantValues, PreopVariableNames } from '../Settings';
 
 const enumeratePowers = (powers: Array<IolPowers> | undefined): Array<number> | undefined => {
 	if (typeof powers === 'undefined') {
@@ -26,7 +26,7 @@ export default class T2Formula extends BaseFormula {
 	}
 
 
-	calculate(iolConstants: { [key in IolConstantName]: number }, iolPower: number): string | number {
+	calculate(iolConstants: IolConstantValues, iolPower: number): string | number {
 		// TODO: This is the guts of the formula.
 		// Change it as necessary to output the value requested by the user.
 		// You can safely return a string (an error that will be shown to the user telling them what is wrong with their inputs)
@@ -186,5 +186,92 @@ export default class T2Formula extends BaseFormula {
 			})
 		};
 	}
-}
 
+	static calculatePostopEyes(inputs: PostopApiInputs): string | PostopApiOutput {
+		const answer = { } as PostopApiOutput;
+
+		IolConstantNames.map(x => ({ name: x, roundTo: Settings.iolConstants[x].roundedToSigFigs, value: inputs[x] }))
+			.map(x => answer[x.name] = typeof x.roundTo === 'number' && !Number.isNaN(x.roundTo) ? Math.round(x.value * Math.pow(10, x.roundTo)) / Math.pow(10, x.roundTo) : x.value);
+
+		let numIterations = 0;
+
+		if (inputs.Optimize) {
+			const allEyes = inputs.Eyes.map(eye => T2Formula.getPostopFormula(inputs.KIndex, eye, true));
+
+			const guesses = (allEyes.filter(x => typeof x !== 'string') as Array<PostopFormula>)
+				.map(x => ({ gatinelFkp: x.gatinelFkp, calculate: x.calculate, guess: x.calculate(answer) as number }))
+				.filter(x => typeof x.guess === 'number');
+
+			if (guesses.length < Settings.optimizeEyes.minEyes || guesses.length > Settings.postopEyes.max) {
+				return `Bad Request\nWhen optimizing lens constants, you must provide between ${Settings.optimizeEyes.minEyes} and ${Settings.postopEyes.max} eyes with valid data.`;
+			}
+
+			const currentGuess = {
+				constants: answer,
+				numIterations: 1,
+				totalError: guesses.reduce((a, b) => a + b.guess, 0),
+				totalFkp: guesses.reduce((a, b) => a + b.gatinelFkp, 0)
+			};
+
+			const variableToAlter = Settings.iolConstants.constantToOptimizeVariableName;
+			const roundTo = Math.pow(10, Settings.iolConstants[variableToAlter].roundedToSigFigs || 10);
+
+			while (Math.abs(currentGuess.totalError / guesses.length) >= 1 / roundTo && currentGuess.numIterations < 20) {
+				currentGuess.numIterations++;
+				const deltaElp = currentGuess.totalError / currentGuess.totalFkp;
+
+				// TODO: If your main lens constant is not an A-constant, you'll have to modify this equation.
+				currentGuess.constants[variableToAlter] = ((currentGuess.constants[variableToAlter] * 0.62467 - 68.747 - deltaElp) + 68.747) / 0.62467;
+				currentGuess.totalError = guesses.reduce((a, b) => a + (x => typeof x === 'number' ? x : 0)(b.calculate(currentGuess.constants)), 0);
+			}
+
+			numIterations = currentGuess.numIterations;
+			answer[variableToAlter] = Math.round(currentGuess.constants[variableToAlter] * roundTo) / roundTo;
+		}
+
+		answer.Predictions = inputs.Eyes.map(eye => T2Formula.calculatePostop(answer, inputs.KIndex, eye))
+
+		return answer;
+	}
+
+	static calculatePostop(constants: IolConstantValues, kIndex: number, eye: PostopEyeObject): string | number {
+		const formula = T2Formula.getPostopFormula(kIndex, eye, true);
+
+		if (typeof formula === 'string') {
+			return formula;
+		}
+
+		return formula.calculate(constants);
+	};
+
+	static getPostopFormula(kIndex: number, eye: PostopEyeObject, round: boolean): string | PostopFormula {
+		const allowedProperties = Object.keys(Settings.variables).concat('IolPower');
+		const invalidProp = Object.keys(eye).find(x => allowedProperties.indexOf(x) < 0);
+
+		if (invalidProp) {
+			return `Invalid property: ${invalidProp}`;
+		}
+
+		const formula = new T2Formula(eye, kIndex);
+		const error = formula.error || (typeof eye.IolPower !== 'number' || isNaN(eye.IolPower) || eye.IolPower < Settings.iolPower.min || eye.IolPower > Settings.iolPower.max ? `IolPower must be a number between ${Settings.iolPower.min} and ${Settings.iolPower.max}` : undefined);
+
+		if (error !== undefined) {
+			return error;
+		}
+
+		return {
+			gatinelFkp: 0.0006 * (eye.IolPower * eye.IolPower + (eye.K1! + eye.K2!) * eye.IolPower),
+			calculate: (constants: IolConstantValues) => {
+				try {
+					const prediction = formula.calculate(constants, eye.IolPower);
+					if (typeof prediction === 'string') {
+						return prediction;
+					}
+					return round ? Math.round(prediction * 10000) / 10000 : prediction;
+				} catch {
+					return 'An unknown error occurred while calculating.';
+				}
+			}
+		};
+	}
+}

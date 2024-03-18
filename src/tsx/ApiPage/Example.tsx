@@ -5,7 +5,7 @@ export default function Example(props: PageProps) {
 	// If you need help generating example requests/responses, I'm happy to help.
 	const postop = {
 		request: '{"KIndex":1.3375,"AConstant":119,"Optimize":false,"Eyes":[{"AL":23.60,"K1":44.12,"K2":44.12,"IolPower":20},{"AL":20.29,"K1":44.12,"K2":44.12,"IolPower":20}]}',
-		response: '"TODO: NOT YET IMPLEMENTED"'
+		response: '{"AConstant":119,"Predictions":[0.163,7.8633]}'
 	};
 
 	const preop = {
