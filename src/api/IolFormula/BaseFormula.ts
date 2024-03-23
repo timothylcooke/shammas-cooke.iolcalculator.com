@@ -1,5 +1,5 @@
 import Settings, { IolConstantName, PreopVariableNames } from '../Settings';
-import { EyeObject } from './ApiVariables';
+import { EyeObject } from './ApiTypes';
 
 export default abstract class BaseFormula {
 	error: string | undefined;

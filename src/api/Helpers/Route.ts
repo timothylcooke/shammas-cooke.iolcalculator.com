@@ -2,7 +2,7 @@ import ApiRoute from './ApiRoute';
 import Settings from '../Settings';
 import Env from './Env';
 import statusCodeResponse from './statusCodeResponse';
-import { PostopApiInputs, PreopApiInputs } from '../IolFormula/ApiVariables';
+import { PostopApiInputs, PreopApiInputs } from '../IolFormula/ApiTypes';
 
 export default class Route {
 	private pathname: string;

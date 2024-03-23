@@ -48,9 +48,11 @@ header.navbar, main {
 	min-width: @docs;
 }
 
-
-
-
 th {
 	font-size: xx-large;
+}
+
+// We don't need to show LastPass elements
+div [data-lastpass-icon-root] {
+	display: none;
 }

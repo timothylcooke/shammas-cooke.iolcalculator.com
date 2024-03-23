@@ -1,54 +1,8 @@
-import Settings, { IolConstantName, IolConstantNames, IolConstantValues, PreopVariableName, PreopVariableNames } from '../Settings';
+import Settings, { IolConstantNames, PreopVariableNames } from '../Settings';
 import arrayOfAll from '../Helpers/arrayOfAll';
 import statusCodeResponse from '../Helpers/statusCodeResponse';
 import Env from '../Helpers/Env';
-
-export type EyeObject = {
-	[key in PreopVariableName]: number | undefined
-};
-
-export type IolPowers = {
-	From: number,
-	To: number,
-	By: number
-}
-
-export type IolObject = {
-	[key in IolConstantName]: number
-} & {
-	Powers: Array<IolPowers>
-};
-
-export type PreopEyeObject = EyeObject & {
-	TgtRx: number,
-	IOLs?: Array<IolObject>
-};
-
-export type PostopEyeObject = EyeObject & {
-	IolPower: number,
-};
-
-export type BaseApiInputs = {
-	KIndex: number,
-};
-
-export type PreopApiInputs = BaseApiInputs & {
-	PredictionsPerIol: number,
-	Eyes: Array<PreopEyeObject>,
-	IOLs?: Array<IolObject>
-};
-
-export type PostopApiInputs = BaseApiInputs & {
-	[key in IolConstantName]: number
-} & {
-	Optimize: boolean,
-	Eyes: Array<PostopEyeObject>
-};
-
-export type PostopFormula = {
-	gatinelFkp: number,
-	calculate: (constants: IolConstantValues) => string | number
-};
+import { IolObject, IolPowers, PostopApiInputs, PreopApiInputs, PreopEyeObject } from './ApiTypes';
 
 export const PreopApiInputNames = arrayOfAll<keyof PreopApiInputs>()('KIndex', 'Eyes', 'PredictionsPerIol', 'IOLs'); // This won't compile if we miss every single property of PreopApiInputs.
 export const PostopApiInputNames = arrayOfAll<keyof PostopApiInputs>()('AConstant', 'Eyes', 'KIndex', 'Optimize'); // This won't compile if we miss every single property of PostopApiInputs.
@@ -56,26 +10,6 @@ export const IolPropertyNames = arrayOfAll<keyof IolObject>()('AConstant', 'Powe
 export const IolPowerPropertyNames = arrayOfAll<keyof IolPowers>()('From', 'To', 'By'); // This won't compile if we miss every single property of PostopApiInputs.
 
 export const PreopEyeVariableNames = (PreopVariableNames.concat([]) as Array<keyof PreopEyeObject>).concat(['TgtRx', 'IOLs']) as Array<keyof PreopEyeObject>;
-
-export type PreopApiOutput = {
-	Error: string
-} | {
-	IOLs: Array<{
-		Error: string
-	} | {
-		Predictions: Array<{
-			IOL: number,
-			Rx: number,
-			IsBestOption?: boolean
-		}>
-	}>
-};
-
-export type PostopApiOutput = {
-	[key in IolConstantName]: number
-} & {
-	Predictions: Array<string | number>
-};
 
 async function ensureNoExtraProperties(inputs: PreopApiInputs | PostopApiInputs, isPreop: boolean, request: Request, env: Env): Promise<Response | undefined> {
 	const allowedProperties: Array<string> = isPreop ? PreopApiInputNames : PostopApiInputNames;

@@ -1,10 +1,7 @@
 import { Link, NavLink, useLocation } from 'react-router-dom';
+import { BaseProps } from './BaseProps';
 
-type NavbarProps = {
-	eula: boolean
-}
-
-export default function Navbar(props: NavbarProps) {
+export default function Navbar(props: BaseProps) {
 	return (
 		<header className="navbar bg-primary navbar-dark sticky-top navbar-expand">
 			<nav className="container text-light">

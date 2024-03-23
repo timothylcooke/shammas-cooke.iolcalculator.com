@@ -6,6 +6,7 @@ import Settings from './Settings';
 const resources: Array<Route> = [
 	'/index.js',
 	'/',
+	'/PrintPreview',
 	'/Documentation',
 	Settings.apiUrl,
 	`${Settings.apiUrl}/preop`,

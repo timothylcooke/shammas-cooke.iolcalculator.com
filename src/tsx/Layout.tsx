@@ -1,13 +1,8 @@
 import { Outlet } from 'react-router-dom';
-import Eula from './Eula';
+import Eula, { EulaProps } from './Eula';
 import Navbar from './Navbar';
 
-type LayoutProps = {
-	eula: boolean,
-	setEula: (value: boolean) => void
-};
-
-export default function Layout(props: LayoutProps) {
+export default function Layout(props: EulaProps) {
 	return (
 		<>
 			<Navbar eula={props.eula} />

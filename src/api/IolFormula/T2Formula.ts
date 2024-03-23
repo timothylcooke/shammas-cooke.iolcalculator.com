@@ -1,5 +1,6 @@
 import BaseFormula from './BaseFormula';
-import { EyeObject, IolObject, IolPowers, IolPropertyNames, PostopApiInputs, PostopApiOutput, PostopEyeObject, PostopFormula, PreopApiOutput, PreopEyeObject, PreopEyeVariableNames } from './ApiVariables';
+import { EyeObject, IolObject, IolPowers, PostopApiInputs, PostopApiOutput, PostopEyeObject, PostopFormula, PreopApiOutput, PreopEyeObject } from './ApiTypes';
+import { IolPropertyNames, PreopEyeVariableNames } from './ApiVariables';
 import Settings, { IolConstantNames, IolConstantValues, PreopVariableNames } from '../Settings';
 
 const enumeratePowers = (powers: Array<IolPowers> | undefined): Array<number> | undefined => {

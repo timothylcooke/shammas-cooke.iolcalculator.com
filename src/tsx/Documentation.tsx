@@ -1,11 +1,8 @@
 import Settings from '../api/Settings';
 import { Link } from 'react-router-dom';
+import { BaseProps } from './BaseProps';
 
-type DocumentationProps = {
-	eula: boolean
-}
-
-export default function Documentation(props: DocumentationProps) {
+export default function Documentation(props: BaseProps) {
 	return (
 		<div className="container py-5">
 			<div className="row">

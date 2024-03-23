@@ -1,7 +1,7 @@
 type Page = 'preop' | 'postop';
+import { BaseProps } from '../BaseProps';
 
-type ApiPageProps = {
-	eula: boolean,
+type ApiPageProps = BaseProps & {
 	page: Page
 }
 

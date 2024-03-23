@@ -1,7 +1,7 @@
 import { Button, Modal } from 'react-bootstrap';
+import { BaseProps } from './BaseProps';
 
-type EulaProps = {
-	eula: boolean,
+export type EulaProps = BaseProps & {
 	setEula: (value: boolean) => void
 };
 

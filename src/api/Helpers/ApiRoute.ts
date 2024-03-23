@@ -1,6 +1,6 @@
-import { validateInputs, PostopApiInputs, PreopApiInputs, PreopEyeObject, PreopApiInputNames, PostopFormula, PostopApiOutput } from '../IolFormula/ApiVariables';
+import { PostopApiInputs, PreopApiInputs } from '../IolFormula/ApiTypes';
+import { validateInputs } from '../IolFormula/ApiVariables';
 import T2Formula from '../IolFormula/T2Formula';
-import Settings, { IolConstantName, IolConstantNames, IolConstantValues } from '../Settings';
 import Env from './Env';
 import statusCodeResponse from './statusCodeResponse';
 

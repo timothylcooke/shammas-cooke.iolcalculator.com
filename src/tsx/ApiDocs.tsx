@@ -1,12 +1,9 @@
 import Settings from '../api/Settings';
 import { Link } from 'react-router-dom';
 import HtmlSettings from './HtmlSettings';
+import { BaseProps } from './BaseProps';
 
-type ApiDocsProps = {
-	eula: boolean
-}
-
-export default function ApiDocs(props: ApiDocsProps) {
+export default function ApiDocs(props: BaseProps) {
 	return (
 		<div className="container py-5">
 			<div className="row">

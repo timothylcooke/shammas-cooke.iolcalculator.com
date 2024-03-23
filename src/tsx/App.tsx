@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useState } from 'react';
 import Documentation from './Documentation';
 import HomePage from './HomePage';
+import PrintPreview from './PrintPreview';
 import Layout from './Layout';
 import Settings from '../api/Settings';
 import ApiDocs from './ApiDocs';
@@ -14,7 +15,8 @@ export default function App() {
 		<BrowserRouter>
 			<Routes>
 				<Route path="/" element={<Layout eula={eula} setEula={setEula} />}>
-					<Route path="/" element={<HomePage />} />
+					<Route path="/" element={<HomePage eula={eula} />} />
+					<Route path="/PrintPreview" element={<PrintPreview />} />
 					<Route path="/Documentation" element={<Documentation eula={eula} />} />
 					<Route path={Settings.apiUrl} element={<ApiDocs eula={eula} />} />
 					<Route path={`${Settings.apiUrl}/preop`} element={<ApiPage eula={eula} page='preop' />} />

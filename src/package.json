@@ -12,6 +12,9 @@
 	"license": "MIT",
 	"devDependencies": {
 		"@cloudflare/workers-types": "^4.20240222.0",
+		"@emotion/react": "^11.11.4",
+		"@emotion/styled": "^11.11.0",
+		"@mui/material": "^5.15.14",
 		"@types/react-dom": "^18.2.19",
 		"@typescript-eslint/eslint-plugin": "^7.1.0",
 		"copy-webpack-plugin": "^12.0.2",
