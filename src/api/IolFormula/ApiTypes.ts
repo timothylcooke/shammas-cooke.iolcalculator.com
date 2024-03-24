@@ -21,7 +21,7 @@ export type PreopApiSuccess = Array<PreopApiError | PreopApiIols>
 export type PreopApiOutput = PreopApiError | PreopApiSuccess;
 
 export type EyeObject = {
-	[key in PreopVariableName]: number | undefined
+	[key in PreopVariableName]?: number | undefined
 };
 
 export type IolPowers = {

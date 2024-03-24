@@ -26,11 +26,6 @@ export default function PrintPreview(props: BaseProps) {
 					AL: x.al,
 					K1: x.k1,
 					K2: x.k2,
-					ACD: undefined,
-					CCT: undefined,
-					LT: undefined,
-					WTW: undefined,
-					CD: undefined,
 					TgtRx: x.tgtRx,
 					IOLs: [{
 						AConstant: x.aConstant,
