@@ -19,22 +19,18 @@ export default abstract class BaseFormula {
 			// If it's neither specified by the API caller nor the API settings, we can ignore it.
 			.filter(x => typeof x.settings !== 'undefined');
 
-		const invalidNumber = allVariables.find(x => x.settings?.usage === 'Required' && (typeof x.value !== 'number' || Number.isNaN(x.value)))?.name;
+		const invalidNumber = allVariables.map(x => 
+			x.settings?.usage === 'Required' && (typeof x.value !== 'number' || Number.isNaN(x.value)) ? `${x.name} is not a valid number.` :
+			typeof x.value !== 'undefined' && (typeof x.value !== 'number' || Number.isNaN(x.value) || x.value < x.settings.min || x.value > x.settings.max) ? `${x.name} must be between ${x.settings.min} and ${x.settings.max}` : undefined
+		).find(x => x);
 
 		if (invalidNumber) {
-			this.error = `${invalidNumber} is not a valid number.`;
-			return;
-		}
-
-		// Finally, let's make sure that all values are within limits.
-		const outOfLimits = allVariables.filter(x => typeof x.value !== 'undefined').find(x => typeof x.value !== 'number' || Number.isNaN(x.value!) || x.value! < x.settings.min || x.value! > x.settings.max);
-		if (outOfLimits) {
-			this.error = `${outOfLimits.name} must be between ${outOfLimits.settings.min} and ${outOfLimits.settings.max}`;
+			this.error = invalidNumber;
 		}
 
 		// At this point, we know that:
 		// Every required variable is specified, and:
-		// Every variable (required or optional) is within the limits.
+		// Every variable specified (whether required or optional) is within the limits.
 
 		// Let's convert the Ks based on Settings.convertKIndex
 		if (typeof this.error === 'undefined') {

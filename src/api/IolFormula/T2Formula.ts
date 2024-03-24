@@ -255,7 +255,7 @@ export default class T2Formula extends BaseFormula {
 		const invalidProp = Object.keys(eye).find(x => allowedPostopEyeProperties.indexOf(x) < 0);
 
 		if (invalidProp) {
-			return `Invalid property: ${invalidProp}`;
+			return `Invalid property: "${invalidProp}"`;
 		}
 
 		const formula = new T2Formula(eye, kIndex);

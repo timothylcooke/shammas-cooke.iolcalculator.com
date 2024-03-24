@@ -26,7 +26,7 @@ async function validateEyesIsProperlySizedArray(inputs: PreopApiInputs | PostopA
 	const { min, max } = (isPreop ? Settings.preopEyes : Settings.postopEyes);
 
 	if (!Array.isArray(inputs.Eyes) || inputs.Eyes.length < min || inputs.Eyes.length > max) {
-		return await statusCodeResponse(request, env, 400, 'Bad Request', `Bad Request\nRoot property "Eyes" must be an array containing between ${min} and ${max} eyes.`);
+		return await statusCodeResponse(request, env, 400, 'Bad Request', `Bad Request:\nRoot property "Eyes" must be an array containing between ${min} and ${max} eyes.`);
 	}
 
 	return undefined;
@@ -34,7 +34,7 @@ async function validateEyesIsProperlySizedArray(inputs: PreopApiInputs | PostopA
 
 async function validateKIndex(inputs: PreopApiInputs | PostopApiInputs, request: Request, env: Env): Promise<Response | undefined> {
 	if (typeof inputs.KIndex !== 'number' || isNaN(inputs.KIndex) || inputs.KIndex < Settings.kIndex.min || inputs.KIndex > Settings.kIndex.max) {
-		return await statusCodeResponse(request, env, 400, 'Bad Request', `Bad Request\nRoot property "KIndex" must be a number between ${Settings.kIndex.min} and ${Settings.kIndex.max}.`);
+		return await statusCodeResponse(request, env, 400, 'Bad Request', `Bad Request:\nRoot property "KIndex" must be a number between ${Settings.kIndex.min} and ${Settings.kIndex.max}.`);
 	}
 
 	return undefined;
@@ -77,9 +77,9 @@ async function validatePostopInputs(inputs: PostopApiInputs, request: Request, e
 
 export async function validateInputs(inputs: PreopApiInputs | PostopApiInputs, isPreop: boolean, request: Request, env: Env): Promise<Response | undefined> {
 	return await ensureNoExtraProperties(inputs, isPreop, request, env) ||
-		await validateEyesIsProperlySizedArray(inputs, isPreop, request, env) ||
 		await validateKIndex(inputs, request, env) ||
 		(isPreop && await validatePreopInputs(inputs as PreopApiInputs, request, env)) ||
 		(!isPreop && await validatePostopInputs(inputs as PostopApiInputs, request, env)) ||
+		await validateEyesIsProperlySizedArray(inputs, isPreop, request, env) ||
 		undefined;
 }
