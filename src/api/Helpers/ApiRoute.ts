@@ -28,9 +28,9 @@ export default class ApiRoute {
 		const answer = T2Formula.calculatePostopEyes(inputs);
 
 		if (typeof answer === 'string') {
-			return await statusCodeResponse(request, env, 400, answer);
+			return await statusCodeResponse(request, env, 400, 'Bad Request', answer);
 		}
 
-		return new Response(JSON.stringify(T2Formula.calculatePostopEyes(inputs)), { headers: { 'content-type': 'application/json' } });
+		return new Response(JSON.stringify(answer), { headers: { 'content-type': 'application/json' } });
 	}
 };
