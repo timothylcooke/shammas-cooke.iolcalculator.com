@@ -21,6 +21,8 @@ const enumeratePowers = (powers: Array<IolPowers> | undefined): Array<number> | 
 	return answer.filter((v, i, a) => a.indexOf(v) === i);
 };
 
+const allowedPostopEyeProperties = Object.keys(Settings.variables).concat('IolPower', 'Ref');
+
 export default class T2Formula extends BaseFormula {
 	constructor(eye: EyeObject, kIndex: number) {
 		super(eye, kIndex);
@@ -197,10 +199,14 @@ export default class T2Formula extends BaseFormula {
 		let numIterations = 0;
 
 		if (inputs.Optimize) {
-			const allEyes = inputs.Eyes.map(eye => T2Formula.getPostopFormula(inputs.KIndex, eye, true));
+			if (inputs.Eyes.find(x => typeof x.Ref !== 'number' || Number.isNaN(x.Ref))) {
+				return 'Ref is required for every eye because Optimize is true.';
+			}
+
+			const allEyes = inputs.Eyes.map(eye => T2Formula.getPostopFormula(inputs.KIndex, eye, false));
 
 			const guesses = (allEyes.filter(x => typeof x !== 'string') as Array<PostopFormula>)
-				.map(x => ({ gatinelFkp: x.gatinelFkp, calculate: x.calculate, guess: x.calculate(answer) as number }))
+				.map(x => ({ gatinelFkp: x.gatinelFkp, ref: x.ref!, calculate: x.calculate, guess: x.calculate(answer) as number }))
 				.filter(x => typeof x.guess === 'number');
 
 			if (guesses.length < Settings.optimizeEyes.minEyes || guesses.length > Settings.postopEyes.max) {
@@ -210,7 +216,7 @@ export default class T2Formula extends BaseFormula {
 			const currentGuess = {
 				constants: answer,
 				numIterations: 1,
-				totalError: guesses.reduce((a, b) => a + b.guess, 0),
+				totalError: guesses.reduce((a, b) => a + b.guess - b.ref, 0),
 				totalFkp: guesses.reduce((a, b) => a + b.gatinelFkp, 0)
 			};
 
@@ -223,7 +229,7 @@ export default class T2Formula extends BaseFormula {
 
 				// TODO: If your main lens constant is not an A-constant, you'll have to modify this equation.
 				currentGuess.constants[variableToAlter] = ((currentGuess.constants[variableToAlter] * 0.62467 - 68.747 - deltaElp) + 68.747) / 0.62467;
-				currentGuess.totalError = guesses.reduce((a, b) => a + (x => typeof x === 'number' ? x : 0)(b.calculate(currentGuess.constants)), 0);
+				currentGuess.totalError = guesses.reduce((a, b) => a + (x => typeof x === 'number' ? x - b.ref : 0)(b.calculate(currentGuess.constants)), 0);
 			}
 
 			numIterations = currentGuess.numIterations;
@@ -246,8 +252,7 @@ export default class T2Formula extends BaseFormula {
 	};
 
 	static getPostopFormula(kIndex: number, eye: PostopEyeObject, round: boolean): string | PostopFormula {
-		const allowedProperties = Object.keys(Settings.variables).concat('IolPower');
-		const invalidProp = Object.keys(eye).find(x => allowedProperties.indexOf(x) < 0);
+		const invalidProp = Object.keys(eye).find(x => allowedPostopEyeProperties.indexOf(x) < 0);
 
 		if (invalidProp) {
 			return `Invalid property: ${invalidProp}`;
@@ -261,7 +266,8 @@ export default class T2Formula extends BaseFormula {
 		}
 
 		return {
-			gatinelFkp: 0.0006 * (eye.IolPower * eye.IolPower + (eye.K1! + eye.K2!) * eye.IolPower),
+			gatinelFkp: round ? 0 : 0.0006 * (eye.IolPower * eye.IolPower + (eye.K1! + eye.K2!) * eye.IolPower),
+			ref: round ? undefined : eye.Ref,
 			calculate: (constants: IolConstantValues) => {
 				try {
 					const prediction = formula.calculate(constants, eye.IolPower);

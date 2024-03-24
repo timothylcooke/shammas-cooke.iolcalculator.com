@@ -39,6 +39,14 @@ export default function EyeObjects(props: PageProps) {
 				<tbody>
 					{firstVariable}
 					{variables}
+					<tr>
+						<td><abbr title="Postop Spherical Equivalent Refraction"><code>Ref</code></abbr></td>
+						<td>Optional<abbr title="Ref is required if Optimize is set to true">*</abbr></td>
+						<td>
+							<p>The postoperative spherical equivalent refraction.</p>
+							<p><strong>*Note:</strong> <code>Ref</code> is required if <code>Optimize</code> is set to <code>true</code>.</p>
+						</td>
+					</tr>
 				</tbody>
 			</table>
 		</>

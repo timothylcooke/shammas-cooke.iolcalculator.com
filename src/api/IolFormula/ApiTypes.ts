@@ -43,6 +43,7 @@ export type PreopEyeObject = EyeObject & {
 
 export type PostopEyeObject = EyeObject & {
 	IolPower: number,
+	Ref?: number
 };
 
 export type BaseApiInputs = {
@@ -64,6 +65,7 @@ export type PostopApiInputs = BaseApiInputs & {
 
 export type PostopFormula = {
 	gatinelFkp: number,
+	ref: number | undefined,
 	calculate: (constants: IolConstantValues) => string | number
 };
 
