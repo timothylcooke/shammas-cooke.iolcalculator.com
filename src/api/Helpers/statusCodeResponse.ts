@@ -11,5 +11,5 @@ export default async function statusCodeResponse(request: Request, env: Env, sta
 		});
 	}
 
-	return new Response(JSON.stringify({ error: statusDescription || statusText }), { status: statusCode, statusText: statusText, headers: { 'content-type': 'application/json' } });
+	return new Response(JSON.stringify({ Error: statusDescription || statusText }), { status: statusCode, statusText: statusText, headers: { 'content-type': 'application/json' } });
 };

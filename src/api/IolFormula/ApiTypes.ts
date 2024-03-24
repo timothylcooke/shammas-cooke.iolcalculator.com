@@ -1,18 +1,24 @@
 import { PreopVariableName, IolConstantName, IolConstantValues } from "../Settings";
 
-export type PreopApiOutput = {
+export type PreopApiError = {
 	Error: string
-} | {
-	IOLs: Array<{
-		Error: string
-	} | {
-		Predictions: Array<{
-			IOL: number,
-			Rx: number,
-			IsBestOption?: boolean
-		}>
+}
+
+export type PreopApiPredictions = {
+	Predictions: Array<{
+		IOL: number,
+		Rx: number,
+		IsBestOption?: boolean
 	}>
-};
+}
+
+export type PreopApiIols = {
+	IOLs: Array<PreopApiError | PreopApiPredictions>
+}
+
+export type PreopApiSuccess = Array<PreopApiError | PreopApiIols>
+
+export type PreopApiOutput = PreopApiError | PreopApiSuccess;
 
 export type EyeObject = {
 	[key in PreopVariableName]: number | undefined
@@ -27,7 +33,7 @@ export type IolPowers = {
 export type IolObject = {
 	[key in IolConstantName]: number
 } & {
-	Powers: Array<IolPowers>
+	Powers?: Array<IolPowers>
 };
 
 export type PreopEyeObject = EyeObject & {
@@ -40,7 +46,7 @@ export type PostopEyeObject = EyeObject & {
 };
 
 export type BaseApiInputs = {
-	KIndex: number,
+	KIndex: number
 };
 
 export type PreopApiInputs = BaseApiInputs & {

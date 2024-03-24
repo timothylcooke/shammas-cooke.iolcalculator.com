@@ -204,7 +204,7 @@ export default class T2Formula extends BaseFormula {
 				.filter(x => typeof x.guess === 'number');
 
 			if (guesses.length < Settings.optimizeEyes.minEyes || guesses.length > Settings.postopEyes.max) {
-				return `Bad Request\nWhen optimizing lens constants, you must provide between ${Settings.optimizeEyes.minEyes} and ${Settings.postopEyes.max} eyes with valid data.`;
+				return `Bad Request:\nWhen optimizing lens constants, you must provide between ${Settings.optimizeEyes.minEyes} and ${Settings.postopEyes.max} eyes with valid data.`;
 			}
 
 			const currentGuess = {

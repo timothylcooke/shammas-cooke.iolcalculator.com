@@ -1,11 +1,12 @@
 import { BaseProps } from './BaseProps';
-import { IolPowers, PreopApiOutput } from '../api/IolFormula/ApiTypes';
+import { IolPowers, PreopApiError, PreopApiIols } from '../api/IolFormula/ApiTypes';
 import { OverlayTrigger, Popover } from 'react-bootstrap';
-import { useState, useRef, SyntheticEvent } from 'react';
+import { useState, useRef, useEffect, SyntheticEvent } from 'react';
 import { Button, FormControl, FormControlLabel, FormHelperText, InputLabel, MenuItem, Select, Switch, TextField } from '@mui/material';
 import HtmlSettings from './HtmlSettings';
 import EyeCard, { EyeCardHandle } from './EyeCard';
 import { useNavigate } from 'react-router-dom';
+import replaceBrowserHistory from './replaceBrowserHistory';
 
 export type SelectableIol = {
 	name: string,
@@ -32,11 +33,12 @@ export type HistoryState = {
 	od: EyeHistoryState,
 	os: EyeHistoryState,
 	fatalError: string | undefined,
-	apiResponse: PreopApiOutput | undefined
+	responseOD: PreopApiError | PreopApiIols | undefined
+	responseOS: PreopApiError | PreopApiIols | undefined
 };
 
 export default function HomePage(props: BaseProps) {
-	const historyState: HistoryState = window.history.state?.usr?.state;
+	const historyState = window.history.state?.usr?.state as HistoryState;
 
 	const newNamePopover = (id: string) => <Popover id={id}>
 		<Popover.Header>
@@ -121,18 +123,24 @@ export default function HomePage(props: BaseProps) {
 			od: odValidation as EyeHistoryState,
 			os: osValidation as EyeHistoryState,
 			fatalError: undefined,
-			apiResponse: undefined
+			responseOD: undefined,
+			responseOS: undefined
 		};
 
 		// Edit the current history so that if we navigate back to this page, we keep our inputs.
-		// eslint-disable-next-line  @typescript-eslint/no-explicit-any
-		const newState = {} as any;
-		Object.assign(newState, window.history.state);
-		newState.usr.state = state;
-		window.history.replaceState(newState, '', window.location.pathname);
+		replaceBrowserHistory(state);
 
 		navigate('/PrintPreview', { state: { state, eula: props.eula } });
 	};
+
+	const onRefresh = () => {
+		replaceBrowserHistory(undefined);
+	};
+
+	useEffect(() => {
+		window.addEventListener('beforeunload', onRefresh);
+		return () => window.removeEventListener('beforeunload', onRefresh);
+	}, []);
 
 	return (
 		<form className="container py-4">

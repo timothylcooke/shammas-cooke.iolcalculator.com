@@ -9,7 +9,7 @@ export default function Navbar(props: BaseProps) {
 				<div className="navbar-collapse">
 					<ul className="navbar-nav ms-auto">
 						<li className="nav-item calc">
-							<NavLink className="nav-link" to="/" state={{ eula: props.eula }} >Calculator</NavLink>
+							<NavLink className={`nav-link${/^\/(PrintPreview)?$/i.test(useLocation().pathname) ? ' active' : ''}`} to="/" state={{ eula: props.eula }} >Calculator</NavLink>
 						</li>
 						<li className="nav-item">
 							<NavLink className={`nav-link${/^\/(PrintPreview)?$/i.test(useLocation().pathname) ? '' : ' active'}`} to="/Documentation" state={{ eula: props.eula }}><span className="docs">Docs</span><span className="documentation">Documentation</span><span className="research"> & Research</span></NavLink>

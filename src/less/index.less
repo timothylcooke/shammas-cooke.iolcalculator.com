@@ -56,3 +56,58 @@ th {
 div [data-lastpass-icon-root] {
 	display: none;
 }
+
+// Don't let the page grow super wide
+@media (min-width: 992px) {
+	.container {
+		max-width: 720px;
+	}
+}
+
+#page {
+	width: 700px;
+	min-height: 906px;
+	margin: 12px auto 40px;
+	border: dashed 1px #007bff;
+	padding: 20px;
+	background-color: #fff;
+	table.variables, table.patient {
+		width: 275px;
+	}
+	table.predictions {
+		max-width: 275px;
+		text-align: center;
+		font-weight: 300;
+		.best-option {
+			font-weight: 500;
+		}
+	}
+}
+
+svg {
+	height: 1px;
+	display: block;
+	margin: 0 0 5px;
+	width: 100%;
+}
+
+.middle {
+	font-size: 0;
+	min-width: 30px;
+	width: 30px;
+}
+
+@media print {
+	header, nav, #buttons {
+		display: none !important;
+	}
+	#page {
+		margin: 0;
+		width: unset;
+		border: none;
+		min-height: unset;
+	}
+	html {
+		background: white;
+	}
+}

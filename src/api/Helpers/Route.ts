@@ -51,12 +51,12 @@ export default class Route {
 			try {
 				requestBody = await request.json();
 			} catch {
-				return await statusCodeResponse(request, env, 400, 'Bad Request', 'Bad Request\nRequest is not valid JSON');
+				return await statusCodeResponse(request, env, 400, 'Bad Request', 'Bad Request:\nRequest is not valid JSON');
 			}
 
 			// And make sure it parses to a simple object.
 			if (typeof requestBody !== 'object' || Array.isArray(requestBody)) {
-				return await statusCodeResponse(request, env, 400, 'Bad Request', 'Bad Request\nRequest is not an object');
+				return await statusCodeResponse(request, env, 400, 'Bad Request', 'Bad Request:\nRequest is not an object');
 			}
 
 			return await this.pathname.endsWith('preop') ?

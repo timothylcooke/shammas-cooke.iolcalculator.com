@@ -16,7 +16,7 @@ async function ensureNoExtraProperties(inputs: PreopApiInputs | PostopApiInputs,
 	const invalidProp = Object.keys(inputs).find(x => allowedProperties.indexOf(x) < 0);
 
 	if (invalidProp) {
-		return await statusCodeResponse(request, env, 400, 'Bad Request', `Bad Request\nRoot property "${invalidProp}" is not a valid property.`);
+		return await statusCodeResponse(request, env, 400, 'Bad Request', `Bad Request:\nRoot property "${invalidProp}" is not a valid property.`);
 	}
 
 	return undefined;
@@ -42,11 +42,11 @@ async function validateKIndex(inputs: PreopApiInputs | PostopApiInputs, request:
 
 async function validatePreopInputs(inputs: PreopApiInputs, request: Request, env: Env): Promise<Response | undefined> {
 	if (typeof inputs.PredictionsPerIol !== 'number' || isNaN(inputs.PredictionsPerIol) || !Number.isInteger(inputs.PredictionsPerIol) || inputs.PredictionsPerIol < Settings.predictionsPerIol.min || inputs.PredictionsPerIol > Settings.predictionsPerIol.max) {
-		return await statusCodeResponse(request, env, 400, 'Bad Request', `Bad Request\nRoot property "PredictionsPerIol" is a required integer between ${Settings.predictionsPerIol.min} and ${Settings.predictionsPerIol.max}`);
+		return await statusCodeResponse(request, env, 400, 'Bad Request', `Bad Request:\nRoot property "PredictionsPerIol" is a required integer between ${Settings.predictionsPerIol.min} and ${Settings.predictionsPerIol.max}`);
 	}
 
 	if (typeof inputs.IOLs !== 'undefined' && (!Array.isArray(inputs.IOLs) || inputs.IOLs.length < Settings.iolsPerEye.min || inputs.IOLs.length > Settings.iolsPerEye.max)) {
-		return await statusCodeResponse(request, env, 400, 'Bad Request', `Bad Request\nRoot property "IOLs" (if specified) must contain between ${Settings.iolsPerEye.min} and ${Settings.iolsPerEye.max}.`);
+		return await statusCodeResponse(request, env, 400, 'Bad Request', `Bad Request:\nRoot property "IOLs" (if specified) must contain between ${Settings.iolsPerEye.min} and ${Settings.iolsPerEye.max}.`);
 	}
 
 	return undefined;
@@ -54,7 +54,7 @@ async function validatePreopInputs(inputs: PreopApiInputs, request: Request, env
 
 async function validatePostopInputs(inputs: PostopApiInputs, request: Request, env: Env): Promise<Response | undefined> {
 	if (typeof inputs.Optimize !== 'boolean') {
-		return await statusCodeResponse(request, env, 400, 'Bad Request', `Bad Request\nRoot property "Optimize" must be a boolean.`);
+		return await statusCodeResponse(request, env, 400, 'Bad Request', `Bad Request:\nRoot property "Optimize" must be a boolean.`);
 	}
 
 	const lensConstants = IolConstantNames.map(x => ({ name: x, value: inputs[x], requirements: Settings.iolConstants[x] }));
@@ -62,14 +62,14 @@ async function validatePostopInputs(inputs: PostopApiInputs, request: Request, e
 	const missingIolConstant = lensConstants.find(x => typeof x.requirements !== 'object' || typeof x.requirements.max !== 'number' || typeof x.requirements.max !== 'number');
 
 	if (missingIolConstant) {
-		return await statusCodeResponse(request, env, 500, 'Bad Configuration', `Source code is not valid\nRoot property "Settings.tsx must specify a ${missingIolConstant.name}" property with valid min and max values in the 'Settings' object.`);
+		return await statusCodeResponse(request, env, 500, 'Bad Configuration', `Source code is not valid:\nRoot property "Settings.tsx must specify a ${missingIolConstant.name}" property with valid min and max values in the 'Settings' object.`);
 	}
 
 	const invalidLensConstant = lensConstants
 		.find(x => typeof x.value !== 'number' || isNaN(x.value) || x.value < x.requirements.min || x.value > x.requirements.max);
 
 	if (invalidLensConstant) {
-		return await statusCodeResponse(request, env, 400, 'Bad Request', `Bad Request\nRoot property "${invalidLensConstant.name}" is required and must be between ${invalidLensConstant.requirements.min} and ${invalidLensConstant.requirements.max}`);
+		return await statusCodeResponse(request, env, 400, 'Bad Request', `Bad Request:\nRoot property "${invalidLensConstant.name}" is required and must be between ${invalidLensConstant.requirements.min} and ${invalidLensConstant.requirements.max}`);
 	}
 
 	return undefined;
