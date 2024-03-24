@@ -1,5 +1,5 @@
 import BaseFormula from './BaseFormula';
-import { EyeObject, IolObject, IolPowers, PostopApiInputs, PostopApiOutput, PostopEyeObject, PostopFormula, PreopApiOutput, PreopEyeObject } from './ApiTypes';
+import { EyeObject, IolObject, IolPowers, PostopApiInputs, PostopApiOutput, PostopEyeObject, PostopFormula, PreopApiError, PreopApiIols, PreopEyeObject } from './ApiTypes';
 import { IolPropertyNames, PreopEyeVariableNames } from './ApiVariables';
 import Settings, { IolConstantNames, IolConstantValues, PreopVariableNames } from '../Settings';
 
@@ -66,7 +66,7 @@ export default class T2Formula extends BaseFormula {
 			// or any variable names explicitly referenced in Settings.variables
 			.concat(PreopVariableNames.filter(x => Settings.variables[x]));
 
-	static calculatePreOp(kIndex: number, predictionsPerIol: number, iols: IolObject[] | undefined, eye: PreopEyeObject): PreopApiOutput {
+	static calculatePreOp(kIndex: number, predictionsPerIol: number, iols: IolObject[] | undefined, eye: PreopEyeObject): PreopApiError | PreopApiIols {
 		// Let's start by making sure the values of the eye are all acceptable.
 		const invalidProp = Object.keys(eye).find(x => T2Formula.allValidPreopVariables.indexOf(x) < 0);
 		if (invalidProp) {
