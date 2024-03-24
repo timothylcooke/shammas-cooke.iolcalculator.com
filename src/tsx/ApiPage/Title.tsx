@@ -13,7 +13,7 @@ export default function Title(props: ApiPageProps) {
 
 			{props.page === 'preop' ?
 				<p>This preoperative API allows you to specify preoperative variables, together with a target postoperative refraction, and returns the IOL power that yields the predicted refraction closest to the specified target refraction, as well as a few additional IOL powers. For each IOL power returned, the API also specifies the corresponding predicted postoperative refraction.</p> :
-				<p>This postoperative API allows you to specify preoperative variables, together with a single IOL power, and get the predicted postoperative refraction for up to {Settings.postopEyes.max.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} eyes per API request.</p>
+				<p>This postoperative API allows you to specify preoperative variables, together with just one IOL power per eye, and get the predicted postoperative refraction for up to {Settings.postopEyes.max.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} eyes per API request.</p>
 			}
 		</>
 	);
