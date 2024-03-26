@@ -28,6 +28,7 @@ module.exports = {
 		new CopyWebpackPlugin({
 			patterns: [
 				{ from: './html/statusCodeResponse.html' },
+				{ from: './favicon/favicon.*', to: '[name][ext]' },
 			]
 		})
 	],

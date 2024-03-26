@@ -5,6 +5,9 @@ import Settings from './Settings';
 
 const resources: Array<Route> = [
 	'/index.js',
+	'/favicon.png',
+	'/favicon.svg',
+	'/favicon.ico',
 	'/',
 	'/PrintPreview',
 	'/Documentation',
