@@ -2,6 +2,13 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
+			"name": "Install Packages",
+			"command": "npm install",
+			"request": "launch",
+			"type": "node-terminal",
+			"cwd": "${workspaceFolder}/src",
+		},
+		{
 			"name": "Debug locally",
 			"command": "npm run debug",
 			"request": "launch",
