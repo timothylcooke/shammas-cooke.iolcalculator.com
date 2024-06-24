@@ -34,15 +34,6 @@ export const rWarning: (kIndex: number) => ValidationInfo = kIndex => ({
 	unitsAbbreviation: 'mm'
 });
 
-const wtwWarning: ValidationInfo = {
-	warnIfLessThan: 10.5,
-	warnIfGreaterThan: 13.33,
-	tooLowWord: 'small',
-	tooHighWord: 'big',
-	units: 'millimeters',
-	unitsAbbreviation: 'mm'
-};
-
 const iols: Array<SelectableIol> = [
 	{ name: 'Other', aConstant: null },
 	{ name: 'Other IOL with Quarter-Diopter powers', aConstant: null, powers: [{ From: Settings.iolPower.min, To: Settings.iolPower.max, By: 0.25 }] },
@@ -81,6 +72,11 @@ const HtmlSettings = {
 		options: [1.3315, 1.332, 1.336, 1.3375, 1.338],
 	},
 
+	v: {
+		default: 12,
+		options: [12, 12.5, 13, 13.5, 14],
+	},
+
 	iols: iols,
 
 	validationInfo: {
@@ -108,34 +104,8 @@ const HtmlSettings = {
 			units: 'millimeters',
 			unitsAbbreviation: 'mm'
 		},
-		ACD: {
-			warnIfLessThan: 1.6,
-			warnIfGreaterThan: 4.97,
-			tooLowWord: 'small',
-			tooHighWord: 'big',
-			units: 'millimeters',
-			unitsAbbreviation: 'mm'
-		},
-		CCT: {
-			warnIfLessThan: 430,
-			warnIfGreaterThan: 670,
-			tooLowWord: 'short',
-			tooHighWord: 'long',
-			units: 'millimeters',
-			unitsAbbreviation: 'mm'
-		},
-		LT: {
-			warnIfLessThan: 3.24,
-			warnIfGreaterThan: 5.99,
-			tooLowWord: 'short',
-			tooHighWord: 'long',
-			units: 'millimeters',
-			unitsAbbreviation: 'mm'
-		},
 		K1: kWarning,
 		K2: kWarning,
-		WTW: wtwWarning,
-		CD: wtwWarning,
 	} as
 	{ [key in PreopVariableName]: ValidationInfo } &
 	{ [key in IolConstantName]: ValidationInfo } &
@@ -147,11 +117,6 @@ const HtmlSettings = {
 		K1: (isPreop: boolean) => <p>One {isPreop ? '' : 'preoperative '}meridian specified by the keratometer. This can be the steep K, or the flat K. Keratometry values must be between {Settings.variables.K1?.min} and {Settings.variables.K1?.max} Diopters, and you must specify the <a href="#k-index">keratometric index</a> in the request.</p>,
 		K2: (isPreop: boolean) => <p>The second {isPreop ? '' : 'preoperative '}meridian specified by the keratometer. This can be the steep K, or the flat K. Keratometry values must be between {Settings.variables.K2?.min} and {Settings.variables.K2?.max} Diopters, and you must specify the <a href="#k-index">keratometric index</a> in the request.</p>,
 		AL: (isPreop: boolean) => <p>The {isPreop ? '' : 'preoperative '}axial length, measured by optical biometry. This value must be between {Settings.variables.AL?.min} and {Settings.variables.AL?.max} millimeters.</p>,
-		CCT: (isPreop: boolean) => <p>The {isPreop ? '' : 'preoperative '}central corneal thickness, measured by optical biometry. This value must be between {Settings.variables.CCT?.min} and {Settings.variables.CCT?.max} microns.</p>,
-		ACD: (isPreop: boolean) => <p>The {isPreop ? '' : 'preoperative '}anterior chamber depth, measured by optical biometry. This value is the sum of the central corneal thickness and the aqueous depth, and must be between {Settings.variables.ACD?.min} and {Settings.variables.ACD?.max} millimeters.</p>,
-		LT: (isPreop: boolean) => <p>The {isPreop ? '' : 'preoperative '}lens thickness, measured by optical biometry. This value must be between {Settings.variables.LT?.min} and {Settings.variables.LT?.max} millimeters.</p>,
-		WTW: (isPreop: boolean) => <p>The {isPreop ? '' : 'preoperative '}horizontal white-to-white, also known as &quot;Horizontal Corneal Diameter.&quot; This value must be between {Settings.variables.WTW?.min} and {Settings.variables.WTW?.max} millimeters.</p>,
-		CD: (isPreop: boolean) => <p>The {isPreop ? '' : 'preoperative '}horizontal corneal diameter, also known as &quot;Horizontal White-to-White.&quot; This value must be between {Settings.variables.CD?.min} and {Settings.variables.CD?.max} millimeters.</p>,
 	} as { [key in PreopVariableName]: (isPreop: boolean) => JSX.Element }
 };
 

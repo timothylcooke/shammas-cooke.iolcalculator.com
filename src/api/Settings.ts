@@ -13,10 +13,9 @@ export type LensConstant = {
 };
 
 // You can delete variable names that aren't used, but you'll also have to delete them in HtmlSettings' VariableDescriptions.
-export const PreopVariableNames = ['AL', 'K1', 'K2', 'ACD', 'CCT', 'LT', 'WTW', 'CD'] as const;
+export const PreopVariableNames = ['AL', 'K1', 'K2'] as const;
 export type PreopVariableName = typeof PreopVariableNames[number];
 
-// TODO: Specify your lens constant(s). All constants are considered required.
 // Each constant must be defined in Settings.iolConstants with a min and max value.
 export const IolConstantNames = ['AConstant'] as const;
 export type IolConstantName = typeof IolConstantNames[number];
@@ -26,11 +25,10 @@ export type IolConstantValues = {
 };
 
 const Settings = {
-	formulaName: 'T2',
-	apiUrl: '/api/v1/t2', // This should not end with a trailing slash.
+	formulaName: 'Shammas-Cooke',
+	apiUrl: '/api/v1/shammas-cooke', // This should not end with a trailing slash.
 
 	// We convert Ks specified by the user to Ks with this keratometric refractive index.
-	// For the T2 formula, Ks are considered 333/measured anterior corneal radius
 	convertKIndex: 1.3375,
 
 	// Any user-facing predicted refraction should be rounded to how many significant figures?
@@ -79,6 +77,11 @@ const Settings = {
 	kIndex: {
 		min: 1,
 		max: 2
+	},
+
+	v: {
+		min: 10,
+		max: 20
 	},
 
 	iolPower: {
@@ -133,41 +136,6 @@ const Settings = {
 			fullName: 'Axial Length'
 		},
 
-		/*
-		TODO:
-			The T2 formula does not use any additional variables.
-			Uncomment any extra variables you need in your formula.
-		*/
-		// ACD: {
-		// 	min: 1.1,
-		// 	max: 5.9,
-		// 	usage: 'Recommended',
-		// 	fullName: 'Anterior Chamber Depth'
-		// },
-
-		// CCT: {
-		// 	min: 310,
-		// 	max: 800,
-		// 	usage: 'Recommended',
-		// 	fullName: 'Central Corneal Thickness'
-		// },
-
-		// LT: {
-		// 	min: 2.52,
-		// 	max: 6.47,
-		// 	usage: 'Recommended',
-		// 	usageAsterisk: 'LT is required for the Argos biometer, or to calculate lens powers greater than +40 Diopters',
-		// 	fullName: 'Lens Thickness'
-		// },
-
-		// // You can safely rename "WTW" to "CD"
-		// WTW: {
-		// 	min: 9.81,
-		// 	max: 13.5,
-		// 	usage: 'Optional',
-		// 	usageAsterisk: 'WTW is required to calculate lens powers greater than +40 Diopters',
-		// 	fullName: 'Horizontal Corneal Diamter'
-		// },
 	} as { [key in PreopVariableName]: Variable | undefined }
 };
 

@@ -1,16 +1,14 @@
 import { PageProps } from './ApiPageProps';
 
 export default function Example(props: PageProps) {
-	// TODO: Here, we need to create example API requests and responses.
-	// If you need help generating example requests/responses, I'm happy to help.
 	const postop = {
-		request: '{"KIndex":1.3375,"AConstant":119,"Optimize":false,"Eyes":[{"AL":23.60,"K1":44.12,"K2":44.12,"IolPower":20},{"AL":20.29,"K1":44.12,"K2":44.12,"IolPower":20}]}',
-		response: '{"AConstant":119,"Predictions":[0.163,7.8633]}'
+		request: '{"KIndex":1.3375,"V":12,"AConstant":119,"Optimize":false,"Eyes":[{"AL":27.60,"K1":38.12,"K2":38.12,"IolPower":20},{"AL":25.29,"K1":37.72,"K2":38.9,"IolPower":20}]}',
+		response: '{"AConstant":119,"Predictions":[-1.6298,2.3145]}'
 	};
 
 	const preop = {
-		request: '{"KIndex":1.3375,"PredictionsPerIol":7,"IOLs":[{"AConstant":119,"Powers":[{"From":6,"To":30,"By":0.5}]}],"Eyes":[{"TgtRx":-1,"K1":40,"K2":42,"AL":24}]}',
-		response: '[{"IOLs":[{"Predictions":[{"IOL":22.5,"Rx":0.0899},{"IOL":23,"Rx":-0.2634},{"IOL":23.5,"Rx":-0.6208},{"IOL":24,"Rx":-0.9825,"IsBestOption":true},{"IOL":24.5,"Rx":-1.3486},{"IOL":25,"Rx":-1.7191},{"IOL":25.5,"Rx":-2.0942}]}]}]'
+		request: '{"KIndex":1.3375,"V":12,"PredictionsPerIol":7,"IOLs":[{"AConstant":119.33,"Powers":[{"From":6,"To":30,"By":0.5}]}],"Eyes":[{"TgtRx":-1,"K1":38.26,"K2":38.47,"AL":27.07}]}',
+		response: '[{"IOLs":[{"Predictions":[{"IOL":19,"Rx":0.022},{"IOL":19.5,"Rx":-0.3488},{"IOL":20,"Rx":-0.7241},{"IOL":20.5,"Rx":-1.1041,"IsBestOption":true},{"IOL":21,"Rx":-1.4889},{"IOL":21.5,"Rx":-1.8785},{"IOL":22,"Rx":-2.2731}]}]}]'
 	};
 
 	const { request, response } = (props.page === 'postop' ? postop : preop);

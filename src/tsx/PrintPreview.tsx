@@ -20,6 +20,7 @@ export default function PrintPreview(props: BaseProps) {
 	const convertToApiInput: (state: HistoryState) => PreopApiInputs = state => {
 		return {
 			KIndex: state.kIndex,
+			V: state.v,
 			PredictionsPerIol: 7,
 			Eyes: [state.od, state.os].filter(x => x)
 				.map(x => ({
@@ -148,6 +149,10 @@ export default function PrintPreview(props: BaseProps) {
 							<tr>
 								<td>Keratometric Index</td>
 								<td className="text-end">{historyState.kIndex}</td>
+							</tr>
+							<tr>
+								<td>Vertex Distance</td>
+								<td className="text-end">{historyState.v}</td>
 							</tr>
 						</tbody>
 					</table>
