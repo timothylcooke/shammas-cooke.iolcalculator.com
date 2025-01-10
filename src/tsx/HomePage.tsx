@@ -163,13 +163,10 @@ export default function HomePage(props: BaseProps) {
 	return (
 		<form className="container py-4">
 			<div className="row">
-				<h1 id="bd-title">IOLCalculator.com</h1>
+				<h1 id="bd-title">Shammas-Cooke Formula</h1>
 			</div>
 			<div className="row">
-				<p className="lead">This is an example website and API page showcasing how to set up a website with a functional IOL calculator API.</p>
-			</div>
-			<div className="row">
-				<p>This site has a working implementation of an IOL calculator and API for the Shammas-Cooke formula. <a href="https://github.com/timothylcooke/shammas-cooke.iolcalculator.com">All of the code for this website can be found on GitHub.</a></p>
+				<p>All of the code for this website can be found <a href="https://github.com/timothylcooke/shammas-cooke.iolcalculator.com">on GitHub.</a></p>
 			</div>
 			<div className="row justify-content-center mt-4">
 				<div className="col">
