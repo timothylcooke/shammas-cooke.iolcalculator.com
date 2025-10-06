@@ -1,3 +1,4 @@
+import React from 'react';
 import Settings, { IolConstantName, PreopVariableName } from '../api/Settings';
 import { SelectableIol } from './HomePage';
 
@@ -117,7 +118,7 @@ const HtmlSettings = {
 		K1: (isPreop: boolean) => <p>One {isPreop ? '' : 'preoperative '}meridian specified by the keratometer. This can be the steep K, or the flat K. Keratometry values must be between {Settings.variables.K1?.min} and {Settings.variables.K1?.max} Diopters, and you must specify the <a href="#k-index">keratometric index</a> in the request.</p>,
 		K2: (isPreop: boolean) => <p>The second {isPreop ? '' : 'preoperative '}meridian specified by the keratometer. This can be the steep K, or the flat K. Keratometry values must be between {Settings.variables.K2?.min} and {Settings.variables.K2?.max} Diopters, and you must specify the <a href="#k-index">keratometric index</a> in the request.</p>,
 		AL: (isPreop: boolean) => <p>The {isPreop ? '' : 'preoperative '}axial length, measured by optical biometry. This value must be between {Settings.variables.AL?.min} and {Settings.variables.AL?.max} millimeters.</p>,
-	} as { [key in PreopVariableName]: (isPreop: boolean) => JSX.Element }
+	} as { [key in PreopVariableName]: (isPreop: boolean) => React.JSX.Element }
 };
 
 export default HtmlSettings;
