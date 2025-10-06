@@ -1,5 +1,6 @@
-import { Button, Modal } from 'react-bootstrap';
+import { Modal } from 'react-bootstrap';
 import { BaseProps } from './BaseProps';
+import { Button } from '@mui/material';
 
 export type EulaProps = BaseProps & {
 	setEula: (value: boolean) => void
@@ -61,7 +62,7 @@ export default function Eula(props: EulaProps) {
 				</p>
 			</Modal.Body>
 			<Modal.Footer>
-				<Button variant="primary" onClick={acceptEula}>Accept</Button>
+				<Button variant="contained" onClick={acceptEula}>Accept</Button>
 			</Modal.Footer>
 		</Modal>
 	);

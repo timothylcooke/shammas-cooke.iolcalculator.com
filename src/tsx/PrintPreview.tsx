@@ -7,6 +7,7 @@ import PrintPreviewEye from './PrintPreviewEye';
 import { PreopApiError, PreopApiInputs, PreopApiOutput, PreopApiSuccess } from '../api/IolFormula/ApiTypes';
 import Settings from '../api/Settings';
 import replaceBrowserHistory from './replaceBrowserHistory';
+import { Box, Button, Stack } from '@mui/material';
 
 export default function PrintPreview(props: BaseProps) {
 	const [historyState, setHistoryState] = useState(window.history.state?.usr?.state as HistoryState);
@@ -113,9 +114,13 @@ export default function PrintPreview(props: BaseProps) {
 	return (
 		<>
 			<div id="buttons" className="text-center mb-2 mt-3">
-				<button type="button" className="btn btn-warning" onClick={() => window.history.back()}>Edit</button>
-				<button type="button" className="btn btn-success mx-3" onClick={() => window.print()}>Print</button>
-				<Link type="button" className="btn btn-primary" to="/" state={{ eula: props.eula }} >New Patient</Link>
+				<Box textAlign="center">
+					<Stack spacing={2} direction="row" justifyContent="center">
+						<Button color="warning" onClick={() => window.history.back()} variant="contained">Edit</Button>
+						<Button color="success" onClick={() => window.print()} variant="contained">Print</Button>
+						<Button component={Link} to="/" state={{ eula: props.eula }} variant="contained">New Patient</Button>
+					</Stack>
+				</Box>
 			</div>
 			<div id="page-parent">
 				<div id="page">
@@ -171,7 +176,7 @@ export default function PrintPreview(props: BaseProps) {
 								<td className="text-danger" style={{ textAlign: 'center', fontStyle: 'italic' }}>{historyState.fatalError}</td>
 							</tr>
 							<tr>
-								<td style={{ textAlign: 'center' }}><a href="#" className="btn btn-danger" onClick={e => { e.preventDefault(); fetchApiData(); return false; }}>Retry</a></td>
+								<td style={{ textAlign: 'center' }}><Button href="#" variant="contained" color="error" onClick={e => { e.preventDefault(); fetchApiData(); return false; }}>Retry</Button></td>
 							</tr>
 						</tbody>
 					</table>)}

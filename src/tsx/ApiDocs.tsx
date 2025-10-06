@@ -2,6 +2,7 @@ import Settings from '../api/Settings';
 import { Link } from 'react-router-dom';
 import HtmlSettings from './HtmlSettings';
 import { BaseProps } from './BaseProps';
+import { Button } from '@mui/material';
 
 export default function ApiDocs(props: BaseProps) {
 	return (
@@ -16,11 +17,11 @@ export default function ApiDocs(props: BaseProps) {
 			<div className="row">
 				<div className="col-md-6">
 					The preoperative API is designed to let you use the {HtmlSettings.formulaName} formula in your own IOL calculator.
-					<Link className="btn btn-primary d-block mb-4" to={`${Settings.apiUrl}/preop`} role="button" state={{ eula: props.eula }}>{HtmlSettings.formulaName} Preoperative API</Link>
+					<Button component={Link} to={`${Settings.apiUrl}/preop`} state={{ eula: props.eula }} variant="contained" className="mb-4" fullWidth>{HtmlSettings.formulaName} Preoperative API</Button>
 				</div>
 				<div className="col-md-6">
 					The postoperative API is designed to let you optimize your lens constants.
-					<Link className="btn btn-primary d-block mb-4" to={`${Settings.apiUrl}/postop`} role="button" state={{ eula: props.eula }}>{HtmlSettings.formulaName} Postoperative API</Link>
+					<Button component={Link} to={`${Settings.apiUrl}/postop`} state={{ eula: props.eula }} variant="contained" className="mb-4" fullWidth>{HtmlSettings.formulaName} Postoperative API</Button>
 				</div>
 			</div>
 		</div>

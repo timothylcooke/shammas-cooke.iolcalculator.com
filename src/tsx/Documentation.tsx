@@ -1,6 +1,7 @@
 import Settings from '../api/Settings';
 import { Link } from 'react-router-dom';
 import { BaseProps } from './BaseProps';
+import { Button } from '@mui/material';
 
 export default function Documentation(props: BaseProps) {
 	return (
@@ -15,8 +16,8 @@ export default function Documentation(props: BaseProps) {
 				<p>Do you want to include the {Settings.formulaName} formula within your own IOL calculator? Are you hoping to use the {Settings.formulaName} formula within your own code?</p>
 			</div>
 			<div className="row">
-				<div className="col-lg-4 col-md-6">
-					<Link className="btn btn-primary d-block mb-4" to={Settings.apiUrl} state={{ eula: props.eula }} role="button">Check out our API documentation</Link>
+				<div className="col-md-6">
+					<Button className="mb-4" fullWidth component={Link} to={Settings.apiUrl} state={{ eula: props.eula }} variant="contained">Check out our API documentation</Button>
 				</div>
 			</div>
 		</div>
