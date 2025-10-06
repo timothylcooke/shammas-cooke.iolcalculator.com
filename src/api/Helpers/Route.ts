@@ -22,10 +22,10 @@ export default class Route {
 			const dot = /\./;
 			if (pathname.match(dot)) {
 				// The pathname contains a '.' character. Let's assume it's a file.
-				regex = new RegExp(`^${pathname.replace(/\//, '\\/+').replace(/\./, '\\.')}$`);
+				regex = new RegExp(`^${pathname.replaceAll(/\//g, '\\/+').replaceAll(/\./g, '\\.')}$`, 'i');
 			} else {
 				// The pathname does not contain a '.' character. It must be a webpage, and (therefore) equivalent to loading '/'.
-				regex = new RegExp(`^${pathname.replace(/\//, '\\/+')}\\/*$`);
+				regex = new RegExp(`^${pathname.replaceAll(/\//g, '\\/+').replaceAll(/\./g, '\\.')}\\/*$`, 'i');
 				this.resourceUrl = '/';
 			}
 		}

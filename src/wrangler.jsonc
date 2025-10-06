@@ -1,0 +1,20 @@
+{
+  "name": "shammas-cooke-iolcalculator-com",
+  "compatibility_date": "2025-10-01",
+  "main": "./api/_worker.ts",
+  "workers_dev": false,
+  "assets": {
+    "directory": "./dist/prod",
+    "binding": "ASSETS",
+    "html_handling": "drop-trailing-slash"
+  },
+  "env": {
+    "dev": {
+      "assets": {
+        "directory": "./dist/dev",
+        "binding": "ASSETS",
+        "html_handling": "drop-trailing-slash"
+      }
+    }
+  }
+}

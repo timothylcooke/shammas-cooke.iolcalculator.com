@@ -1,14 +1,17 @@
 // This file is only here so Visual Studio Code not show compiler errors in the /tests folder.
 {
+	"extends":"../config/api-tsconfig.json",
 	"compilerOptions": {
-		"module": "es2022",
-		"target": "es2022",
-		"lib": ["es2022"],
-		"strict": true,
-		"moduleResolution": "node",
+		"moduleResolution": "bundler",
 		"allowSyntheticDefaultImports": true,
+		"types": ["@cloudflare/vitest-pool-workers", "@cloudflare/workers-types"],
+		"rootDir": "../"
 	},
 	"include": [
-		"."
+		"../api/",
+		"./"
+	],
+	"exclude": [
+		"../tsx"
 	]
 }

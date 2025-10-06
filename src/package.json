@@ -4,13 +4,15 @@
 	"description": "",
 	"main": "api/_worker.ts",
 	"scripts": {
-		"debug": "start /b tsc --build --watch ./config/api-tsconfig.dev.json && start /b webpack --watch --progress --config config/webpack.dev.js && wrangler pages dev ./dist/dev/ --ip 127.0.0.1 --compatibility-date 2024-02-22",
-		"release": "glob -c \"node --loader tsx --test\" \"./tests/*.ts\" && webpack --progress --config config/webpack.prod.js && tsc --build ./config/api-tsconfig.prod.json",
-		"test": "glob -c \"node --watch --import tsx --test\" \"./tests/*.ts\""
+		"debug": "mkdirp dist/dev && start /b webpack --watch --progress --config config/webpack.dev.js && wrangler dev --env dev --ip 127.0.0.1",
+		"release": "mkdirp dist/prod && vitest --config tests/vitest.config.ts --run && webpack --progress --config config/webpack.prod.js",
+		"test": "mkdirp dist/prod && vitest --config tests/vitest.config.ts --watch",
+		"initialize-database": "wrangler d1 migrations apply DB --local && wrangler d1 migrations apply DB --remote && wrangler logout"
 	},
 	"author": "",
 	"license": "MIT",
 	"devDependencies": {
+		"@cloudflare/vitest-pool-workers": "^0.9.10",
 		"@cloudflare/workers-types": "^4.20240222.0",
 		"@emotion/react": "^11.11.4",
 		"@emotion/styled": "^11.11.0",
@@ -21,9 +23,9 @@
 		"css-loader": "^6.10.0",
 		"eslint-plugin-react": "^7.33.2",
 		"eslint-webpack-plugin": "^4.0.1",
-		"glob": "^10.3.10",
 		"html-webpack-plugin": "^5.6.0",
 		"less-loader": "^12.2.0",
+		"mkdirp": "^3.0.1",
 		"npm": "^10.5.0",
 		"prune": "^0.0.2",
 		"react-bootstrap": "^2.10.1",

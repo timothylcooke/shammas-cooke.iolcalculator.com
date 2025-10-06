@@ -2,9 +2,9 @@ import Env from './Helpers/Env';
 import Route from './Helpers/Route';
 import statusCodeResponse from './Helpers/statusCodeResponse';
 import Settings from './Settings';
+import { WorkerEntrypoint } from 'cloudflare:workers';
 
 const resources: Array<Route> = [
-	'/index.js',
 	'/favicon.png',
 	'/favicon.svg',
 	'/favicon.ico',
@@ -16,10 +16,10 @@ const resources: Array<Route> = [
 	`${Settings.apiUrl}/postop`
 ].map(x => new Route(x));
 
-export default {
-	async fetch(request: Request, env: Env): Promise<Response> {
+export default class extends WorkerEntrypoint<Env> {
+	async fetch(request: Request): Promise<Response> {
 		if (!'OPTIONS'.localeCompare(request.method, undefined, { sensitivity: 'accent' })) {
-			const response: Response = await env.ASSETS.fetch(new Request(request.url, { cf: request.cf, headers: request.headers, method: request.method }));
+			const response: Response = await this.env.ASSETS.fetch(new Request(request.url, { cf: request.cf, headers: request.headers, method: request.method }));
 			const headers = new Headers(response.headers);
 			headers.append('Access-Control-Request-Method', 'GET,POST');
 			headers.append('Access-Control-Allow-Headers', '*');
@@ -37,9 +37,9 @@ export default {
 
 		if (resource) {
 			// We matched a page.
-			return resource.respond(url.pathname, request, env);
+			return resource.respond(url.pathname, request, this.env);
 		}
 
-		return await statusCodeResponse(request, env, 404, 'Not Found', 'The page you requested does not exist.');
+		return await statusCodeResponse(request, this.env, 404, 'Not Found', 'The page you requested does not exist.');
 	}
 };

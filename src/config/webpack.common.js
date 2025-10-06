@@ -7,6 +7,12 @@ const path = require('path');
 // Both the webpack.dev.js and webpack.prod.js files include everything defined within this file, and add a few dev/prod-specific settings.
 // Hence, everything in this file applies to both development and production builds.
 
+const indexHtml = filename => new HTMLWebpackPlugin({
+	template: './html/index.html',
+	filename
+});
+
+
 module.exports = {
 
 	// The src/tsx/index.tsx file is the main entry point.
@@ -15,9 +21,10 @@ module.exports = {
 
 	plugins: [
 		// We load the index.html file, injecting into it the compiled index.tsx file.
-		new HTMLWebpackPlugin({
-			template: './html/index.html'
-		}),
+		indexHtml('index.html'),
+		indexHtml('Documentation.html'),
+		indexHtml('PrintPreview.html'),
+		indexHtml('api/v1/shammas-cooke/index.html'),
 
 		// We run eslint on any typescript file. eslint enforces code style, which helps us write consistent code.
 		new ESLintPlugin({
@@ -58,9 +65,9 @@ module.exports = {
 		extensions: [ '.tsx', '.ts', '.js' ]
 	},
 
-	// We're compiling index.tsx into index.js.
+	// We're compiling index.tsx into index.[contenthash].js.
 	output: {
-		filename: 'index.js',
+		filename: 'index.[contenthash].js',
 		publicPath: '/'
 	}
 };
