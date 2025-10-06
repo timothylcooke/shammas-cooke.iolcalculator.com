@@ -6,8 +6,7 @@
 	"scripts": {
 		"debug": "mkdirp dist/dev && start /b webpack --watch --progress --config config/webpack.dev.js && wrangler dev --env dev --ip 127.0.0.1",
 		"release": "mkdirp dist/prod && vitest --config tests/vitest.config.ts --run && webpack --progress --config config/webpack.prod.js",
-		"test": "mkdirp dist/prod && vitest --config tests/vitest.config.ts --watch",
-		"initialize-database": "wrangler d1 migrations apply DB --local && wrangler d1 migrations apply DB --remote && wrangler logout"
+		"test": "mkdirp dist/prod && vitest --config tests/vitest.config.ts --watch"
 	},
 	"author": "",
 	"license": "MIT",
