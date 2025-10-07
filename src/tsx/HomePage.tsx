@@ -13,7 +13,7 @@ export type SelectableIol = {
 	name: string,
 	aConstant: number | null,
 	powers?: Array<IolPowers>
-}
+};
 
 export type EyeHistoryState = {
 	tgtRx: number,
@@ -22,7 +22,7 @@ export type EyeHistoryState = {
 	k1: number,
 	k2: number,
 	al: number
-}
+};
 
 export type HistoryState = {
 	last: string,
@@ -197,7 +197,7 @@ export default function HomePage(props: BaseProps) {
 								<div className="col-sm pt-4">
 									<FormControl fullWidth>
 										<InputLabel id="k-index-label" error={kIndexError !== undefined}>Keratometric Index</InputLabel>
-										<Select id="k-index" labelId='k-index-label' value={kIndex} onChange={e => validateKIndex(e.target.value as number)} label="Keratometric Index" error={kIndexError !== undefined} onBlur={() => validateKIndex()}>
+										<Select id="k-index" labelId="k-index-label" value={kIndex} onChange={e => validateKIndex(e.target.value as number)} label="Keratometric Index" error={kIndexError !== undefined} onBlur={() => validateKIndex()}>
 											{HtmlSettings.kIndex.options.map(x => <MenuItem key={x} value={x}>{x}</MenuItem>)}
 										</Select>
 										<FormHelperText error={kIndexError !== undefined}>{kIndexError}</FormHelperText>
@@ -206,7 +206,7 @@ export default function HomePage(props: BaseProps) {
 								<div className="col-sm pt-4">
 									<FormControl fullWidth>
 										<InputLabel id="v-label" error={kIndexError !== undefined}>Vertex Distance</InputLabel>
-										<Select id="v" labelId='v-label' value={v} onChange={e => validateV(e.target.value as number)} label="Vertex Distance" error={vError !== undefined} onBlur={() => validateV()}>
+										<Select id="v" labelId="v-label" value={v} onChange={e => validateV(e.target.value as number)} label="Vertex Distance" error={vError !== undefined} onBlur={() => validateV()}>
 											{HtmlSettings.v.options.map(x => <MenuItem key={x} value={x}>{x}</MenuItem>)}
 										</Select>
 										<FormHelperText error={vError !== undefined}>{vError}</FormHelperText>
@@ -222,13 +222,13 @@ export default function HomePage(props: BaseProps) {
 					</div>
 				</div>
 			</div>
-			<div className='row'>
+			<div className="row">
 				<EyeCard ref={od} title="OD - Right" idPrefix="od" historyState={historyState?.od} useKs={useKs} kIndex={kIndex ?? HtmlSettings.kIndex.default} />
 				<EyeCard ref={os} title="OS - Left" idPrefix="os" historyState={historyState?.os} useKs={useKs} kIndex={kIndex ?? HtmlSettings.kIndex.default} />
 			</div>
 
 			<div className="row justify-content-center">
-				<div className='col pt-4 text-center'>
+				<div className="col pt-4 text-center">
 					<OverlayTrigger placement="top" show={showOneEyeRequired} overlay={<Popover><Popover.Header><strong>Missing Data</strong></Popover.Header><Popover.Body>You must enter at least one eye.</Popover.Body></Popover>}>
 						<Button type="submit" id="submit" variant="contained" onClick={onContinue} onBlur={() => setShowOneEyeRequired(false)}>Continue</Button>
 					</OverlayTrigger>

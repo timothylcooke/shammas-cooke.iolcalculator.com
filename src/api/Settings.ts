@@ -4,7 +4,7 @@ type Variable = {
 	usage: 'Required' | 'Recommended' | 'Optional',
 	usageAsterisk?: string,
 	fullName: string
-}
+};
 
 export type LensConstant = {
 	min: number,

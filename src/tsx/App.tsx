@@ -19,8 +19,8 @@ export default function App() {
 					<Route path="/PrintPreview" element={<PrintPreview eula={eula} />} />
 					<Route path="/Documentation" element={<Documentation eula={eula} />} />
 					<Route path={Settings.apiUrl} element={<ApiDocs eula={eula} />} />
-					<Route path={`${Settings.apiUrl}/preop`} element={<ApiPage eula={eula} page='preop' />} />
-					<Route path={`${Settings.apiUrl}/postop`} element={<ApiPage eula={eula} page='postop' />} />
+					<Route path={`${Settings.apiUrl}/preop`} element={<ApiPage eula={eula} page="preop" />} />
+					<Route path={`${Settings.apiUrl}/postop`} element={<ApiPage eula={eula} page="postop" />} />
 				</Route>
 			</Routes>
 		</BrowserRouter>

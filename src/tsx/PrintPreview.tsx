@@ -130,7 +130,7 @@ export default function PrintPreview(props: BaseProps) {
 							<tr>
 								<th colSpan={2}>
 									<h3 className="text-center">Patient</h3>
-									<svg fill='#007bff'>
+									<svg fill="#007bff">
 										<path d="M0,0h275v1H0" />
 									</svg>
 								</th>

@@ -9,7 +9,7 @@ type PrintPreviewEyeProps = {
 	isQuerying: boolean,
 	data: EyeHistoryState,
 	predictions: PreopApiError | PreopApiIols | undefined
-}
+};
 
 export default function PrintPreviewEye(props: PrintPreviewEyeProps) {
 	if (typeof props.data === 'undefined') {
@@ -20,12 +20,12 @@ export default function PrintPreviewEye(props: PrintPreviewEyeProps) {
 
 	return (
 		<td>
-			<table className='mt-3 variables'>
+			<table className="mt-3 variables">
 				<tbody>
 					<tr>
 						<th colSpan={3}>
-							<h3 className='text-center'>{props.label}</h3>
-							<svg fill='#007bff'>
+							<h3 className="text-center">{props.label}</h3>
+							<svg fill="#007bff">
 								<path d="M0,0h275v1H0" />
 							</svg>
 						</th>

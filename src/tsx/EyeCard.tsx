@@ -111,7 +111,7 @@ const EyeCard = forwardRef<EyeCardHandle, EyeCardProps>(function EyeCard(props, 
 							<FormControl fullWidth>
 								<InputLabel id={`${props.idPrefix}-iol-label`} error={iolError !== undefined}>IOL</InputLabel>
 								<Select id={`${props.idPrefix}-iol`} labelId={`${props.idPrefix}-iol-label`} value={iol} onChange={e => onUpdateIol(e.target.value)} label="IOL" error={iolError !== undefined} onBlur={validateIol}>
-									<MenuItem hidden={iol === ''} value=''><span style={{color: 'red'}}>Clear Selection (No IOL)</span></MenuItem>
+									<MenuItem hidden={iol === ''} value=""><span style={{color: 'red'}}>Clear Selection (No IOL)</span></MenuItem>
 									{HtmlSettings.iols.map((x, i) => <MenuItem key={i} value={JSON.stringify(x)}>{x.name}</MenuItem>)}
 								</Select>
 								<FormHelperText error={iolError !== undefined}>{iolError}</FormHelperText>

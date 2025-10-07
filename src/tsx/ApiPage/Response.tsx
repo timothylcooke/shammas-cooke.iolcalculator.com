@@ -17,8 +17,10 @@ export default function Response(props: PageProps) {
 						<li>
 							<p><code>&quot;Predictions&quot;</code>: if all values for the IOL are valid, this will be an array of prediction results.</p>
 							<p>Unless there are not enough IOL options, the list of <code>&quot;Predictions&quot;</code> will be an array containing the specified number of prediction results (See <a href="#predictions-per-iol">the PredictionsPerIol request property</a>).</p>
-							<p>Each prediction includes the IOL power, called <code>&quot;IOL&quot;</code>, and the predicted postoperative spherical equivalent refraction, called <code>&quot;Rx&quot;</code>.
-							The best option (whose <code>&quot;Rx&quot;</code> is closest to the <a href="#tgt-rx">request&apos;s <code>&quot;TgtRx&quot;</code> property</a> will also include <code>&quot;IsBestOption&quot;: true</code>). Whenever possible, this prediction will be the middle option in the array. Other options will omit the <code>&quot;IsBestOption&quot;</code> parameter.</p>
+							<p>
+								Each prediction includes the IOL power, called <code>&quot;IOL&quot;</code>, and the predicted postoperative spherical equivalent refraction, called <code>&quot;Rx&quot;</code>.
+								The best option (whose <code>&quot;Rx&quot;</code> is closest to the <a href="#tgt-rx">request&apos;s <code>&quot;TgtRx&quot;</code> property</a> will also include <code>&quot;IsBestOption&quot;: true</code>). Whenever possible, this prediction will be the middle option in the array. Other options will omit the <code>&quot;IsBestOption&quot;</code> parameter.
+							</p>
 							The predictions returned will be sorted by their <code>&quot;IOL&quot;</code> property, with lower IOL powers specified first.
 						</li>
 					</ol>
